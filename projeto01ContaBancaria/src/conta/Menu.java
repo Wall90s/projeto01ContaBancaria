@@ -1,16 +1,35 @@
-package projeto01ContaBancaria;
+package conta;
 
 import java.util.Scanner;
+
+import conta.model.Conta;
+import conta.util.Cores;
 
 public class Menu {
 
 	public static void main(String[] args) {
 		
 		Scanner leia = new Scanner(System.in);
+		
+		Conta c1 = new Conta(1, 123, 1, "Erica Araujo", 30000.0f);
+		c1.visualizar();
+		
+		c1.setSaldo(35000.0f);
+		System.out.println("\n\n" + c1.getSaldo());
+		
+		Conta c2 = new Conta(2, 123, 1, "Dener Cardoso", 50000.0f);
+		c2.visualizar();
+		
+		if(c2.sacar(1000.0f))
+			System.out.println("\n\n" + c2.getSaldo());
+		
+		c1.depositar(10000.0f);
+		c1.visualizar();
+		
 		int opcao;
 		
 		while (true) {
-			System.out.println("************************************************************************");		
+			System.out.println(Cores.TEXT_CYAN_BOLD + "************************************************************************");		
 			System.out.println("                                                                                                            ");
 			System.out.println("                                BANCO DO BRAZIL COM Z                                  ");
 			System.out.println("                                                                                                            ");
@@ -27,7 +46,7 @@ public class Menu {
 			System.out.println("                         9 - Sair                                                                         ");
 			System.out.println("                                                                                                             ");
 			System.out.println("************************************************************************");		
-			System.out.println("Entre com a opção desejada:                                                                ");
+			System.out.println(Cores.TEXT_GREEN + "Entre com a opção desejada:                                                                ");
 			System.out.println("                                                                                                             ");
 			
 			opcao = leia.nextInt();
