@@ -8,6 +8,7 @@ import conta.repository.ContaRepository;
 public class ContaController implements ContaRepository {
 
 	private ArrayList<Conta> listaContas = new ArrayList<Conta>();
+	int numero = 1;
 
 	@Override
 	public void procurarPorNumero(int numero) {
@@ -52,7 +53,7 @@ public class ContaController implements ContaRepository {
 		var conta = buscarNaCollection(numero);
 
 		if (conta != null) {
-			if(listaContas.remove(conta) == true) {
+			if (listaContas.remove(conta) == true) {
 				System.out.println("A Conta número " + numero + " foi excluida com sucesso");
 			}
 		} else {
@@ -63,26 +64,59 @@ public class ContaController implements ContaRepository {
 
 	@Override
 	public void sacar(int numero, float valor) {
-		// TODO Auto-generated method stub
+
+		var conta = buscarNaCollection(numero);
+
+		if (conta != null) {
+			if (conta.sacar(valor) == true) {
+				System.out.println("O saque foi efetuado com sucesso");
+			} else {
+				System.out.println("Saldo insuficiente");
+			}
+		}
 
 	}
 
 	@Override
 	public void depositar(int numero, float valor) {
-		// TODO Auto-generated method stub
+
+		var conta = buscarNaCollection(numero);
+
+		if (conta != null) {
+			conta.depositar(valor);
+			System.out.println("O depósito foi efetuado com sucesso");
+		} else {
+			System.out.println("Depósito não realizado");
+		}
 
 	}
 
 	@Override
 	public void transferir(int numero, int numeroDestino, float valor) {
-		// TODO Auto-generated method stub
+
+		var contaOrigem = buscarNaCollection(numero);
+		var contaDestino = buscarNaCollection(numeroDestino);
+
+		if (contaOrigem != null && contaDestino != null) {
+			if (contaOrigem.sacar(valor) == true) {
+				contaDestino.depositar(valor);
+				System.out.println("A tranferência");
+			}
+		} else {
+			System.out.println("A Conta Origem e/ou Destino não foram encontradas");
+		}
 
 	}
 
 	// Métodos Auxiliares
 
 	public int gerarNumero() {
-		return listaContas.size() + 1;
+		if (listaContas.size() == 0) {
+			return numero;
+		} else {
+			numero++;
+			return numero;
+		}
 	}
 
 	public Conta buscarNaCollection(int numero) {
@@ -93,14 +127,9 @@ public class ContaController implements ContaRepository {
 		}
 		return null;
 	}
-	
+
 	public int retornaTipo(int numero) {
-		for (var conta : listaContas) {
-			if (conta.getNumero() == numero) {
-				return conta.getTipo();
-			}
-		}
-		return 0;
+		return ++numero;
 	}
 
 }
